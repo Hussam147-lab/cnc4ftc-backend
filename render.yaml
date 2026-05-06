@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: cnc4ftc-backend
+    runtime: node
+    buildCommand: npm install
+    startCommand: node server.js
+    plan: free
+    envVars:
+      - key: MONGO_URI
+        sync: false
+      - key: EMAIL_USER
+        sync: false
+      - key: EMAIL_PASS
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
