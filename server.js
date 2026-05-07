@@ -6,7 +6,8 @@ require("dotenv").config();
 const app = express();
 const mongoose = require("mongoose");
 const rateLimit = require("express-rate-limit");
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 app.use(cors());
 app.use(express.json());
@@ -32,16 +33,6 @@ const User = mongoose.model('User', userSchema);
 module.exports = User; 
 
 const storage = multer.memoryStorage();
-
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
 
 const upload = multer({ storage });
 
@@ -72,15 +63,13 @@ async function addUser(tmName, tmNum, eml, insta, cnc, _3dprnt, add, pos) {
 
 async function sendEmail(from, teamName, teamNumber){
   try{
-    await transporter.sendMail({
-      from: `"CNC4FTC" <${process.env.EMAIL_USER}>`,
-      to: process.env.EMAIL_USER,
+    await resend.emails.send({
+      from: 'onboarding@resend.dev',
+      to: 'nofaliahussam11@gmail.com',
       replyTo: from,
-      subject: "Request",
-      text: `Request from ${teamName} #${teamNumber}
-      
-      I would like to have my location shown on the map`
-    });
+      subject: 'Request',
+      text: `Request from ${teamName} #${teamNumber}\n\nI would like to have my location shown on the map`
+    })
 
     return true;
   } catch (err) {console.log("Error sending email"); return false; }
