@@ -107,6 +107,8 @@ app.post("/try-upload", upload.single("file"), async (req, res) => {
     req.body.position,
   );
 
+  res.json({ userAdded: added});
+
   if(added)
     console.log(`Added ${added}`);
     sentEmail = await sendEmail(
@@ -114,8 +116,6 @@ app.post("/try-upload", upload.single("file"), async (req, res) => {
       req.body.teamName,
       req.body.teamNumber
     );
-
-  res.json({ userAdded: added, sentEmail: sentEmail });
 });
 
 app.post('/check-pass', (req, res) => {
