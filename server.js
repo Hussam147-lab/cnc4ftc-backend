@@ -81,7 +81,7 @@ async function sendEmail(from, teamName, teamNumber){
     });
 
     return true;
-  } catch (err) {console.error(err); return false; }
+  } catch (err) {console.log("Error sending email"); return false; }
 }
 
 app.use("/upload", limiter);
@@ -106,6 +106,7 @@ app.post("/try-upload", upload.single("file"), async (req, res) => {
   );
 
   if(added)
+    console.log(`Added ${added}`);
     sentEmail = await sendEmail(
       req.body.email,
       req.body.teamName,
