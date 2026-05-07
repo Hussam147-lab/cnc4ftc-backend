@@ -107,7 +107,7 @@ app.post("/try-upload", upload.single("file"), async (req, res) => {
     req.body.position,
   );
 
-  console.log(test);
+  console.log("test");
 
   res.json({ userAdded: added});
 
