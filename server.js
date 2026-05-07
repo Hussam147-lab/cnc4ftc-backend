@@ -65,7 +65,7 @@ async function sendEmail(from, teamName, teamNumber){
   try{
     await resend.emails.send({
       from: 'onboarding@resend.dev',
-      to: process.env.USER_EMAIL,
+      to: process.env.EMAIL_USER,
       replyTo: from,
       subject: 'Request',
       text: `Request from ${teamName} #${teamNumber}\n\nI would like to have my location shown on the map`
