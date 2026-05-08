@@ -75,8 +75,6 @@ async function sendEmail(from, teamName, teamNumber){
   } catch (err) {console.log("Error sending email"); return false; }
 }
 
-app.use("/upload", limiter);
-
 app.post("/upload", (req, res) => {
   res.json({ message: req.body.message })
 });
@@ -95,9 +93,7 @@ app.post("/try-upload", upload.single("file"), async (req, res) => {
     req.body.address,
     req.body.position,
   );
-
-  console.log("test");
-
+  
   res.json({ userAdded: added});
 
   if(added)
@@ -108,6 +104,8 @@ app.post("/try-upload", upload.single("file"), async (req, res) => {
       req.body.teamNumber
     );
 });
+
+app.use("/try-upload", limiter);
 
 app.post('/check-pass', (req, res) => {
   try{
