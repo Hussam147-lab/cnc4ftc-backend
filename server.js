@@ -36,11 +36,15 @@ const storage = multer.memoryStorage();
 
 const upload = multer({ storage });
 
+app.set('trust proxy', 1);
+
 const limiter = rateLimit({
   windowMs: 3 * 60 * 60 * 1000,
   max: 2,
   message: "Too many submissions from this IP, please try again later."
 });
+
+app.use("/try-upload", limiter);
 
 async function addUser(tmName, tmNum, eml, insta, cnc, _3dprnt, add, pos) {
   try{
@@ -104,8 +108,6 @@ app.post("/try-upload", upload.single("file"), async (req, res) => {
       req.body.teamNumber
     );
 });
-
-app.use("/try-upload", limiter);
 
 app.post('/check-pass', (req, res) => {
   try{
